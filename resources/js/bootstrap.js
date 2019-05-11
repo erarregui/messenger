@@ -1,23 +1,29 @@
 
-window._ = require('lodash');
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+//window._ = require('lodash');
 
 /**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
+ * 
+ 
+ * Cargaremos jQuery y el complemento Bootstrap jQuery que proporciona soporte.
+ * para las características de Bootstrap basadas en JavaScript, como los modales y las pestañas. Esta
+ * El código puede modificarse para adaptarse a las necesidades específicas de su aplicación
  */
 
+/*
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (e) {}/*
 
 /**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
+ *
+ * Cargaremos la biblioteca HTTP de axios que nos permite emitir solicitudes fácilmente.
+ * A nuestro back-end Laravel. Esta biblioteca maneja automáticamente el envío del
+ * El token CSRF como encabezado basado en el valor de la cookie del token "XSRF"
  */
 
 window.axios = require('axios');
