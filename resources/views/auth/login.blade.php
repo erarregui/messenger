@@ -40,7 +40,8 @@
                         </b-form-group>
 
                         <b-form-group>
-                            <b-form-checkbox name="remember"
+                            <b-form-checkbox
+                                  name="remember"
                                   {{ old('remember') ? 'checked="true"' : '' }}>
                                   Recordar sesión
                             </b-form-checkbox>
