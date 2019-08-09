@@ -52,8 +52,8 @@
                                 {{ __('Ingresar') }}
                             </b-button>
 
-                            <b-button href="{{ route('password.request') }}" variant="link">        
-                                {{ __('Olvidaste tu contraseña?') }}
+                            <b-button href="{{ route('register') }}" variant="link">        
+                                {{ __('No estas registrado?') }}
                             </b-button>
                         </b-form-group>
 
