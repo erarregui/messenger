@@ -28,6 +28,8 @@ Vue.component('contact-component', require('./components/ContactComponent.vue').
 Vue.component('contact-list-component', require('./components/ContactListComponent.vue').default);
 Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue').default);
 Vue.component('message-conversation-component', require('./components/MessageConversationComponent.vue').default);
+Vue.component('messenger-component', require('./components/MessengerComponent.vue').default);
+
 Vue.component('toast-component', require('./components/ToastComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to

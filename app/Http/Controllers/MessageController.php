@@ -31,9 +31,12 @@ class MessageController extends Controller
     	$message->to_id = $request->to_id;
     	$message->content = $request->content;
     	$saved = $message->save();
+        //si el mensaje se registra sasifactoriamente
 
+        //el servidor responde "success" 
     	$data = [];
     	$data['success'] = $saved;
+        $data['message'] = $message;
     	return $data;
     }
 }
