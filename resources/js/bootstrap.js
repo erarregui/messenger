@@ -60,3 +60,5 @@ window.Echo = new Echo({
      cluster: 'us2',
      encrypted: true
 });
+// incorporo la biblioteca moment
+window.moment = require('moment');

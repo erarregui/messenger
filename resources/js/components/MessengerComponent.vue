@@ -2,8 +2,14 @@
 	<b-container fluid style="height: calc(100vh - 56px);">
 	    <b-row class="h-100" no-gutters>
 	        <b-col cols="4">
-	            <contact-list-component v-on:conversationSelected="changeActiveConversation($event)"></contact-list-component>
-	        </b-col>
+    	        
+                <contact-list-component 
+                    v-on:conversationSelected="changeActiveConversation($event)"
+                    :conversations="conversations">
+                    
+                </contact-list-component>
+	        
+            </b-col>
 	         <b-col cols="8">
 	            
 	            <active-conversation-component
@@ -29,13 +35,14 @@
         data() {  //funcion data() devuelve un objeto
             return {
                 selectedConversation : null,
-                messages: []
+                messages: [],
+                conversations: []
                 
             };
         },
         mounted() {
-
-            Echo.channel(`user.${this.userId}`)
+            this.getConversations();
+            Echo.private(`user.${this.userId}`)
                 .listen('MessageSent', (data) => {
                     console.log(message);
                     const message = data.message;
@@ -61,10 +68,30 @@
              });
             },
             addMessage(message) {
-               if (this.selectedConversation.contact_id == message.from_id) { 
+               const conversation = this.conversations.find((conversation) => {
+                return conversation.contact_id == message.from_id ||
+                    conversation.contact_id == message.to_id;
+               });
+
+               const author = this.userId === message.from_id ? 'tu' : conversation.contact_name;
+               conversation.last_message = `${author}: ${message.content}`;
+               conversation.last_time = message.created_at;
+
+
+               if (this.selectedConversation.contact_id == message.from_id
+                   || this.selectedConversation.contact_id == message.to_id)  
                    this.messages.push(message);
-               }     
-            }  
+            },     
+            
+            getConversations() {
+              axios.get('/api/conversations')
+              .then((response) => {
+                console.log(response.data);
+                //guardamos en conversations[] la data que viene del servidor (response.data)    
+                this.conversations = response.data;
+              });
+
+            },  
         }
     }
 </script>

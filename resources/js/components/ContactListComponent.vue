@@ -27,27 +27,21 @@
 
 <script>
     export default {
+        props: {
+          conversations: Array
+        },
+
         data() {
             return {
-              conversations: []
-
+               
             };
         },
         mounted() {
             console.log('Component mounted.');
-            this.getConversations();
+            
         },
         methods: {
-            getConversations() {
-              axios.get('/api/conversations')
-              .then((response) => {
-                console.log(response.data);
-                //guardamos en conversations[] la data que viene del servidor (response.data)    
-                this.conversations = response.data;
-              });
-
-            },
-
+            
             selectConversation(conversation) {
               //console.log(conversation);
               //alert('seleccionado')
