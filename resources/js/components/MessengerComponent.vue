@@ -49,15 +49,43 @@
                     message.written_by_me = false;  
                     this.addMessage(message);
                 
-        });
-            console.log('Component mounted.')
-            //alert('Component mounted')
+        }); //canales para indicar estado del contacto
+            Echo.join(`messenger`)
+                .here((users) => { //usuarios presentes
+                console.log('online', users);
+            })
+                .joining((user) => { //usuario que inicia
+                console.log('acabo de conectarse', user.id);
+                const index = this.conversations.findIndex((conversation) => {
+                    return conversation.contact_id == user.id;
+                });
+                console.log(index);
+                
+                // vue.$set() para agregar una propiedad a un objeto    
+                this.$set(this.conversations[index], 'online', true);
+
+            })
+                .leaving((user) => { //usuario que sale
+                const index = this.conversations.findIndex((conversation) => {
+                    return conversation.contact_id == user.id;
+                });
+                this.conversations[index].online = false;
+                // vue.$set() para agregar una propiedad a un objeto    
+                this.$set(this.conversations[index], 'online', false);
+
+            });
         },
         methods: {
         	changeActiveConversation(conversation) {
         		console.log('nueva conversacion seleccionada', conversation);
                 this.selectedConversation = conversation;
                 this.getMessages();
+                this.$bvModal.msgBoxOk('Action completed', {
+                  title:'prueba',
+                  okVariant:'danger',
+          
+
+        })
         	},
 
             getMessages() {

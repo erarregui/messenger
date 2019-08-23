@@ -43,6 +43,9 @@
                         <b-dropdown-item href="#" @click="logout">
                             Cerrar sesión
                         </b-dropdown-item>
+                        <b-dropdown-item href="{{ url('prueba') }}" >
+                            Prueba
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
                 @endif
             </b-navbar-nav>

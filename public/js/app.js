@@ -1839,6 +1839,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   //propiedades que vienen de forma externa
   //puede ser un array o un objet
@@ -1851,7 +1856,8 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   mounted: function mounted() {
-    console.log('Component mounted.'); //alert('Component mounted')
+    console.log('Component mounted.');
+    console.log("estado ".concat(this.conversation.last_message)); //alert('Component mounted')
   },
   computed: {
     lastTime: function lastTime() {
@@ -2012,14 +2018,42 @@ __webpack_require__.r(__webpack_exports__);
       message.written_by_me = false;
 
       _this.addMessage(message);
+    }); //canales para indicar estado del contacto
+
+    Echo.join("messenger").here(function (users) {
+      //usuarios presentes
+      console.log('online', users);
+    }).joining(function (user) {
+      //usuario que inicia
+      console.log('acabo de conectarse', user.id);
+
+      var index = _this.conversations.findIndex(function (conversation) {
+        return conversation.contact_id == user.id;
+      });
+
+      console.log(index); // vue.$set() para agregar una propiedad a un objeto    
+
+      _this.$set(_this.conversations[index], 'online', true);
+    }).leaving(function (user) {
+      //usuario que sale
+      var index = _this.conversations.findIndex(function (conversation) {
+        return conversation.contact_id == user.id;
+      });
+
+      _this.conversations[index].online = false; // vue.$set() para agregar una propiedad a un objeto    
+
+      _this.$set(_this.conversations[index], 'online', false);
     });
-    console.log('Component mounted.'); //alert('Component mounted')
   },
   methods: {
     changeActiveConversation: function changeActiveConversation(conversation) {
       console.log('nueva conversacion seleccionada', conversation);
       this.selectedConversation = conversation;
       this.getMessages();
+      this.$bvModal.msgBoxOk('Action completed', {
+        title: 'prueba',
+        okVariant: 'danger'
+      });
     },
     getMessages: function getMessages() {
       var _this2 = this;
@@ -2076,6 +2110,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2108,6 +2144,14 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (value) {
         _this2.boxTwo = value;
       })["catch"](function (err) {// An error occurred
+      });
+    },
+    consultar: function consultar() {
+      var numero = 10; //alert(numero);
+
+      this.$bvModal.msgBoxOk('Action completed', {
+        title: 'prueba',
+        okVariant: 'danger'
       });
     }
   }
@@ -61720,9 +61764,39 @@ var render = function() {
               attrs: { cols: "6", "align-self": "center" }
             },
             [
-              _c("p", { staticClass: "mb-1" }, [
-                _vm._v(_vm._s(_vm.conversation.contact_name))
-              ]),
+              _c(
+                "p",
+                { staticClass: "mb-1" },
+                [
+                  _vm.conversation.online
+                    ? _c("b-img", {
+                        attrs: {
+                          blank: "",
+                          width: "10",
+                          height: "10",
+                          rounded: "circle",
+                          "blank-color": "green",
+                          alt: "Circle image"
+                        }
+                      })
+                    : _c("b-img", {
+                        attrs: {
+                          blank: "",
+                          width: "10",
+                          height: "10",
+                          rounded: "circle",
+                          "blank-color": "gray",
+                          alt: "Circle image"
+                        }
+                      }),
+                  _vm._v(
+                    "    \n                " +
+                      _vm._s(_vm.conversation.contact_name) +
+                      "\n            "
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("p", { staticClass: "text-muted small mb-1" }, [
                 _vm._v(_vm._s(_vm.conversation.last_message))
@@ -61947,7 +62021,7 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      { staticClass: "mb-2" },
+      { staticClass: "mb-2 p-3" },
       [
         _c("b-button", { on: { click: _vm.showMsgBoxOne } }, [
           _vm._v("Simple msgBoxOk")
@@ -61959,11 +62033,13 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "mb-1" },
+      { staticClass: "mb-1 p-3" },
       [
         _c("b-button", { on: { click: _vm.showMsgBoxTwo } }, [
           _vm._v("msgBoxOk with options")
         ]),
+        _vm._v("\n   Return value: " + _vm._s(String(_vm.boxTwo)) + "\n   "),
+        _c("b-button", { on: { click: _vm.consultar } }, [_vm._v("Consultar")]),
         _vm._v("\n   Return value: " + _vm._s(String(_vm.boxTwo)) + "\n  ")
       ],
       1

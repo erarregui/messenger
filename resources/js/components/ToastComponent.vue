@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div class="mb-2">
+    <div class="mb-2 p-3">
      <b-button @click="showMsgBoxOne">Simple msgBoxOk</b-button>
      Return value: {{ String(boxOne) }}
     </div>
-    <div class="mb-1">
+    <div class="mb-1 p-3">
      <b-button @click="showMsgBoxTwo">msgBoxOk with options</b-button>
+     Return value: {{ String(boxTwo) }}
+     <b-button @click="consultar">Consultar</b-button>
      Return value: {{ String(boxTwo) }}
     </div>
   </div>
@@ -47,6 +49,16 @@
           .catch(err => {
             // An error occurred
           })
+      },
+      consultar(){
+        const numero = 10;
+        //alert(numero);
+        this.$bvModal.msgBoxOk('Action completed', {
+          title:'prueba',
+          okVariant:'danger'
+
+        })
+
       }
     }
   }

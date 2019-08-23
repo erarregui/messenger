@@ -5,7 +5,12 @@
                 <b-img v-bind="mainProps" blank width="60" height="60"  rounded="circle" blank-color="#777" alt="Circle image"></b-img>
             </b-col>
             <b-col cols="6" align-self="center" class="d-none d-md-block">
-                <p class="mb-1">{{ conversation.contact_name }}</p>
+                
+                <p class="mb-1">
+                    <b-img  v-if="conversation.online" blank width="10" height="10"  rounded="circle" blank-color="green" alt="Circle image"></b-img> 
+                    <b-img v-else blank width="10" height="10"  rounded="circle" blank-color="gray" alt="Circle image"></b-img>    
+                    {{ conversation.contact_name }}
+                </p>
                 <p class="text-muted small mb-1">{{ conversation.last_message }}</p>
                 
             </b-col>
@@ -31,7 +36,8 @@
             };
         },
         mounted() {
-            console.log('Component mounted.')
+            console.log('Component mounted.');
+            console.log(`estado ${this.conversation.last_message}`);
             //alert('Component mounted')
         },
         computed: {
