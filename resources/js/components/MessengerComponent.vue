@@ -1,22 +1,31 @@
 <template>
 	<b-container fluid style="height: calc(100vh - 56px);">
 	    <b-row class="h-100" no-gutters>
-	        <b-col cols="4">
-    	        
-                <contact-list-component 
+	        <b-col cols="4" class="">
+    	          <b-form class="my-3 mx-2">  
+                  <b-form-input calss="text-center "
+                       type="text"
+                       v-model="querySearch"
+                       placeholder="Buscar contacto ..">
+                  </b-form-input>
+                </b-form>
+                <contact-list-component  class="mr-2"
                     v-on:conversationSelected="changeActiveConversation($event)"
-                    :conversations="conversations">
+                    :conversations="conversationsFiltred">
                     
                 </contact-list-component>
 	        
-            </b-col>
+          </b-col>
 	         <b-col cols="8">
 	            
 	            <active-conversation-component
                    v-if="selectedConversation"
                    :contact-id="selectedConversation.contact_id"
                    :contact-name="selectedConversation.contact_name"
+                   :contact-image="selectedConversation.contact_image"
+                   :my-image="myImageUrl"
                    :messages="messages"
+
                    @messageCreated="addMessage($event)">
 
                 </active-conversation-component>
@@ -29,20 +38,23 @@
     export default {
 
         props: {
-            userId: Number
+            user: Object
         },
        
         data() {  //funcion data() devuelve un objeto
             return {
                 selectedConversation : null,
                 messages: [],
-                conversations: []
+                conversations: [],
+                querySearch: ''
+                
                 
             };
         },
         mounted() {
+
             this.getConversations();
-            Echo.private(`user.${this.userId}`)
+            Echo.private(`user.${this.user.id}`)
                 .listen('MessageSent', (data) => {
                     console.log(message);
                     const message = data.message;
@@ -52,40 +64,27 @@
         }); //canales para indicar estado del contacto
             Echo.join(`messenger`)
                 .here((users) => { //usuarios presentes
-                console.log('online', users);
+                //console.log('online', users);
+                users.forEach(user => this.changeStatus(user, true));
             })
-                .joining((user) => { //usuario que inicia
-                console.log('acabo de conectarse', user.id);
-                const index = this.conversations.findIndex((conversation) => {
-                    return conversation.contact_id == user.id;
-                });
-                console.log(index);
+                .joining(
+                  user => this.changeStatus(users, true) //usuario que inicia
+                )
                 
-                // vue.$set() para agregar una propiedad a un objeto    
-                this.$set(this.conversations[index], 'online', true);
-
-            })
-                .leaving((user) => { //usuario que sale
-                const index = this.conversations.findIndex((conversation) => {
-                    return conversation.contact_id == user.id;
-                });
-                this.conversations[index].online = false;
-                // vue.$set() para agregar una propiedad a un objeto    
-                this.$set(this.conversations[index], 'online', false);
-
-            });
+                .leaving(
+                  user => this.changeStatus(users, false) //usuario que inicia
+                );
+            
         },
         methods: {
         	changeActiveConversation(conversation) {
         		console.log('nueva conversacion seleccionada', conversation);
                 this.selectedConversation = conversation;
                 this.getMessages();
-                this.$bvModal.msgBoxOk('Action completed', {
-                  title:'prueba',
-                  okVariant:'danger',
-          
-
-        })
+               // this.$bvModal.msgBoxOk('Action completed', {
+               //   title:'prueba',
+               //   okVariant:'danger',
+               // })
         	},
 
             getMessages() {
@@ -101,7 +100,7 @@
                     conversation.contact_id == message.to_id;
                });
 
-               const author = this.userId === message.from_id ? 'tu' : conversation.contact_name;
+               const author = this.user.id === message.from_id ? 'tu' : conversation.contact_name;
                conversation.last_message = `${author}: ${message.content}`;
                conversation.last_time = message.created_at;
 
@@ -120,6 +119,30 @@
               });
 
             },  
+
+            changeStatus(user, satus) {
+
+                const index = this.conversations.findIndex((conversation) => {
+                    return conversation.contact_id == user.id;
+                });
+                if (index >= 0)                
+                  // vue.$set() para agregar una propiedad a un objeto    
+                  this.$set(this.conversations[index], 'online', satus);
+                  const verga = true;
+            } 
+        },
+
+        computed: {
+          myImageUrl(){
+            return `/users/${this.user.image}`;
+          }, 
+          conversationsFiltred() {
+            return this.conversations.filter(
+              (conversation) => conversation.contact_name.
+                  toLowerCase()
+                  .includes(this.querySearch.toLowerCase())
+              );
+          }
         }
     }
 </script>

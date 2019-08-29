@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset(mix('js/app.js')) }}" defer></script> 
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,10 +27,10 @@
     <b-navbar toggleable="sm" type="light" variant="info">
         <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
 
-        <b-navbar-brand href="{{ url('/') }}">
+        <b-navbar-brand href="{{ url('/home') }}">
             {{ config('app.name', 'Laravel') }}
         </b-navbar-brand>
-
+         
         <b-collapse id="nav-text-collapse" is-nav>
             <b-navbar-nav class="ml-auto">
                 @guest
@@ -39,12 +39,13 @@
                         <b-nav-item href="{{ route('register') }}">{{ __('Register') }}</b-nav-item>
                     @endif
                 @else
+                    <b-img src="/users/{{ Auth::user()->image }}" rounded="circle"   slot="aside" width="45" height="45" alt="placeholder" ></b-img> 
                     <b-nav-item-dropdown text="{{ Auth::user()->name }}" right>
                         <b-dropdown-item href="#" @click="logout">
                             Cerrar sesión
                         </b-dropdown-item>
-                        <b-dropdown-item href="{{ url('prueba') }}" >
-                            Prueba
+                        <b-dropdown-item href="{{ url('/profile') }}" >
+                            Modificar perfil
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
                 @endif

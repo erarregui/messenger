@@ -9,8 +9,14 @@ class Conversation extends Model
     
     //propiedad que adjunta la respuesta en json
     //contact_name = get(ContactName)Attribute   
-    protected $appends = ['contact_name'];
+    protected $appends = ['contact_name', 'contact_image'];
     
+     public function getContactImageAttribute()
+    { 
+        //utilizamos Query Builder para optimizar las consultas
+        return '/users/' . $this->contact()->first(['image'])->image;
+    }
+
     public function getContactNameAttribute()
     {
     	//utilizamos Query Builder para optimizar las consultas

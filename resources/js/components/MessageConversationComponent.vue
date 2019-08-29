@@ -1,6 +1,6 @@
 <template>
 	<b-media :right-align="writtenByMe" vertical-align="center">
-	    <b-img rounded="circle" slot="aside"blank blank-color="#ccc" width="50" alt="placeholder"></b-img>
+	    <b-img :src="image" rounded="circle" slot="aside" width="45" height="45" alt="placeholder"></b-img>
 	    <b-card>
 	    	<slot></slot>
 	    </b-card>	      
@@ -12,16 +12,19 @@
     export default {
 
     	props: { // recibe datos desde afuera  
-    		writtenByMe: Boolean 
-    	},
+    		writtenByMe: Boolean, 
+    	    image: String
+            },
+        
         data() {
             return {
             	
             };
         },
         mounted() {
-            console.log('Component mounted.');
-            console.log(this.writtenByMe)
+            console.log(myImage);
+           //console.log('Component mounted.');
+           //console.log(this.writtenByMe)
         }
     }
 </script>

@@ -29,6 +29,8 @@ Vue.component('contact-list-component', require('./components/ContactListCompone
 Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue').default);
 Vue.component('message-conversation-component', require('./components/MessageConversationComponent.vue').default);
 Vue.component('messenger-component', require('./components/MessengerComponent.vue').default);
+Vue.component('status-component', require('./components/StatusComponent.vue').default);
+Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
 
 Vue.component('toast-component', require('./components/ToastComponent.vue').default);
 /**

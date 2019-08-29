@@ -2,13 +2,12 @@
     <b-list-group-item :variant="variant" >
         <b-row class="p-2" align-h="center">
             <b-col cols="12" md="3" class="text-center">
-                <b-img v-bind="mainProps" blank width="60" height="60"  rounded="circle" blank-color="#777" alt="Circle image"></b-img>
+                <b-img v-bind="mainProps" width="60" :src="conversation.contact_image" height="60"  rounded="circle" alt="Circle image"></b-img>
             </b-col>
             <b-col cols="6" align-self="center" class="d-none d-md-block">
                 
                 <p class="mb-1">
-                    <b-img  v-if="conversation.online" blank width="10" height="10"  rounded="circle" blank-color="green" alt="Circle image"></b-img> 
-                    <b-img v-else blank width="10" height="10"  rounded="circle" blank-color="gray" alt="Circle image"></b-img>    
+                    <status-component :online="conversation.online"></status-component>
                     {{ conversation.contact_name }}
                 </p>
                 <p class="text-muted small mb-1">{{ conversation.last_message }}</p>
@@ -27,7 +26,8 @@
         //puede ser un array o un objet
         props: {
             variant: String,
-            conversation: Object
+            conversation: Object,
+            selected: Boolean
         },
 
         data() {  //funcion data() devuelve un objeto
@@ -43,6 +43,9 @@
         computed: {
             lastTime() {
                 return moment(this.conversation.last_time, "YYYY-MM-DD hh:mm:ss").locale('es').fromNow();
+            },
+            variant(){
+                return this.selected ? 'secondary' : '';
             }
         }
     }
