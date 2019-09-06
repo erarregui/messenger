@@ -41,11 +41,15 @@
                 @else
                     <b-img src="/users/{{ Auth::user()->image }}" rounded="circle"   slot="aside" width="45" height="45" alt="placeholder" ></b-img> 
                     <b-nav-item-dropdown text="{{ Auth::user()->name }}" right>
-                        <b-dropdown-item href="#" @click="logout">
-                            Cerrar sesión
-                        </b-dropdown-item>
+                        
                         <b-dropdown-item href="{{ url('/profile') }}" >
                             Modificar perfil
+                        </b-dropdown-item>
+                        <b-dropdown-item href="{{ url('/datos') }}">
+                            Cargar datos
+                        </b-dropdown-item>
+                        <b-dropdown-item href="#" @click="logout">
+                            Cerrar sesión
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
                 @endif

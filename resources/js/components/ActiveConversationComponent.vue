@@ -65,7 +65,6 @@
         props: {
             contactId: Number, //viene de MessageComponet
             contactName: String,
-            messages: Array,
             myImage: String,
             contactImage: String
         },
@@ -99,6 +98,11 @@
                  } 
                 });
         	}
+        },
+        computed: { //campo calcualdo
+            messages(){
+                return this.$store.state.messages;
+            }
         },
         updated(){ //cuando se actualizan la variable dispara el
            const el = document.querySelector('.card-body-scroll');

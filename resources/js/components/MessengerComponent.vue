@@ -24,7 +24,7 @@
                    :contact-name="selectedConversation.contact_name"
                    :contact-image="selectedConversation.contact_image"
                    :my-image="myImageUrl"
-                   :messages="messages"
+                   
 
                    @messageCreated="addMessage($event)">
 
@@ -38,21 +38,18 @@
     export default {
 
         props: {
-            user: Object
+            user: Object //Objeto con info del usuario que ha iniciado sesion
         },
        
         data() {  //funcion data() devuelve un objeto
-            return {
-                selectedConversation : null,
-                messages: [],
-                conversations: [],
-                querySearch: ''
-                
-                
-            };
+            return { //Variables
+                selectedConversation : null, //conversacion seleccionada actualmente
+                //messages: [], //listado de mensajes que se muestra en la conv. activa
+                conversations: [], //conv. o contactos
+                querySearch: '' //campo de busqueda v-model="querySearch"
+              };
         },
         mounted() {
-
             this.getConversations();
             Echo.private(`user.${this.user.id}`)
                 .listen('MessageSent', (data) => {
@@ -91,7 +88,7 @@
                 axios.get(`/api/messages?contact_id=${this.selectedConversation.contact_id}`) //solicitamos datos a la url con envio de parametros
                 .then((response) => {  //una ves que tenemos la respuesta
                  //console.log(response.data);
-                 this.messages = response.data;
+                 this.$store.commit('newMessagesList', response.data );
              });
             },
             addMessage(message) {
@@ -107,7 +104,7 @@
 
                if (this.selectedConversation.contact_id == message.from_id
                    || this.selectedConversation.contact_id == message.to_id)  
-                   this.messages.push(message);
+                   this.$store.commit('addMessage', message);
             },     
             
             getConversations() {
@@ -132,7 +129,8 @@
             } 
         },
 
-        computed: {
+        //son metodos que nos devuelven los campos calculados
+        computed: {  
           myImageUrl(){
             return `/users/${this.user.image}`;
           }, 

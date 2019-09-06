@@ -8,6 +8,8 @@
                 :selected="selectedConversationId === conversation.id">
              
             </contact-component>
+            <b-form-select v-model="conversations" :options="conversations"></b-form-select>
+            <p>hola</p>
            
            <!--ACLARACIONES
                 Enviar un objeto a un componente hijo :propiedad="valor"
