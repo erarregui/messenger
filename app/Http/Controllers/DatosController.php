@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Dato;
 
 class DatosController extends Controller
 {
@@ -12,14 +12,29 @@ class DatosController extends Controller
         $this->middleware('auth');
     }
    
-	public function datos() {
+	public function index() {
 		return view('datos');	
 	}
 
-	 public function getUsuarios(Request $request) {
+	/* public function getAlumno(Request $request) {
 
-    	//return User::get() ;
-    }
+    	$alumno = new Dato;
+
+        $alumno->name = $request->name;
+        $alumno->lastName = $request->lastName;
+        $alumno->email = $request->email;
+        $alumno->amount = $request->amount;
+        $alumno->id_course = $request->id_course;
+        $saved = $alumno->save();
+        //si el mensaje se registra sasifactoriamente
+
+        //el servidor responde "success" 
+        $data = [];
+        $data['success'] = $saved;
+        $data['message'] = $message;
+        return $data;
+
+    }*/
 
     
 }

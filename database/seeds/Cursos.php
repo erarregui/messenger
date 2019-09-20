@@ -13,17 +13,17 @@ class Cursos extends Seeder
     public function run()
     {
         Curso::create([
-        	'nameCurso' => 'Alta costura' ,
+        	'nameCourse' => 'Alta costura' ,
             
         ]);
 
         Curso::create([
-        	'nameCurso' => 'Corte y confeccion' ,
+        	'nameCourse' => 'Corte y confeccion' ,
             
         ]);
 
         Curso::create([
-        	'nameCurso' => 'Trajes y buzos' ,
+        	'nameCourse' => 'Trajes y buzos' ,
             
         ]);
     }

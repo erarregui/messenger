@@ -20,9 +20,17 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile','ProfileController@edit');
 Route::post('/profile','ProfileController@update');
-Route::get('/datos','DatosController@datos');
-Route::get('/datos2', 'DatosController@getUsuarios');
+Route::get('/datos','DatosController@index');
+//Route::get('/datos2', 'DatosController@getUsuarios');
 
 Route::get('/api/conversations','ConversationController@index');
 Route::get('/api/messages','MessageController@index');
 Route::post('/api/messages','MessageController@store');
+
+//Cursos
+Route::get('api/cursos', 'CursoController@index');
+
+//Students
+Route::get('/students', 'StudentsController@index');
+
+

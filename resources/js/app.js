@@ -25,6 +25,10 @@ Vue.component('messenger-component', require('./components/MessengerComponent.vu
 Vue.component('status-component', require('./components/StatusComponent.vue').default);
 Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
 Vue.component('datos-component', require('./components/DatosComponent.vue').default);
+Vue.component('datos-component2', require('./components/DatosComponent2.vue').default);
+
+
+Vue.component('students-component', require('./components/StudentsComponent.vue').default);
 
 //Vue.component('toast-component', require('./components/ToastComponent.vue').default);
 /**
@@ -34,8 +38,9 @@ Vue.component('datos-component', require('./components/DatosComponent.vue').defa
  */
 
 const store = new Vuex.Store({
-  state: {
-    messages: []
+  state: {  //se crea un estado
+    messages: [],
+    numero: 10
   },
   //manipular el estado a travez de mutaciones
   mutations: {
@@ -44,7 +49,10 @@ const store = new Vuex.Store({
   	},
   	addMessage(state, message){
   	    state.messages.push(message);
-  	}
+  	},
+    aumentar(state){
+      state.numero ++
+    }
   }
 });
 
